@@ -1,28 +1,92 @@
-#include "DoublyLinkedList.h"
+#ifndef DOUBLYLINKEDLIST_H
+#define DOUBLYLINKEDLIST_H
+
 #include <iostream>
+using namespace std;
 
-void DoublyLinkedList::displayForward() {
-    Node* temp = head;
-    while (temp) {
-        std::cout << temp->data << " ";
-        temp = temp->next;
-void DoublyLinkedList::append(int value) {
-    Node* newNode = new Node(value);
-    if (!head) {
-        head = tail = newNode;
-    } else {
-        tail->next = newNode;
-        newNode->prev = tail;
-        tail = newNode;
-    }
-}
+/**
+ * @brief Struktura reprezentująca pojedynczy element listy.
+ */
+struct Wezel {
+    int dane;           ///< Przechowuje wartosc elementu
+    Wezel* nastepny;    ///< Wskaznik na kolejny element
+    Wezel* poprzedni;   ///< Wskaznik na poprzedni element
 
-DoublyLinkedList::~DoublyLinkedList() {
-    Node* current = head;
-    while (current) {
-        Node* next = current->next;
-        delete current;
-        current = next;
+    /**
+     * @brief Konstruktor inicjalizujacy wezel
+     * @param wartosc wartosc przypisana do wezla
+     */
+    Wezel(int wartosc) : dane(wartosc), nastepny(nullptr), poprzedni(nullptr) {}
+};
+
+/**
+ * @brief Klasa reprezentujaca liste dwukierunkowa.
+ */
+class ListaDwukierunkowa {
+private:
+    Wezel* glowa;   ///< Wskaznik na pierwszy element
+    Wezel* ogon;    ///< Wskaznik na ostatni element
+
+public:
+    /**
+     * @brief Konstruktor inicjujacy pusta liste
+     */
+    ListaDwukierunkowa() : glowa(nullptr), ogon(nullptr) {}
+
+    /**
+     * @brief Dodaje nowy element na koniec listy
+     * @param wartosc wartosc do dodania
+     */
+    void dodajNaKoniec(int wartosc) {
+        Wezel* nowy = new Wezel(wartosc);
+        if (!glowa) {
+            glowa = ogon = nowy;
+        } else {
+            ogon->nastepny = nowy;
+            nowy->poprzedni = ogon;
+            ogon = nowy;
+        }
     }
-    std::cout << "\n";
-}
+
+    /**
+     * @brief Wyswietla elementy listy od poczatku do konca
+     */
+    void wyswietlOdPoczatku() {
+        cout << "Lista od poczatku: ";
+        Wezel* temp = glowa;
+        while (temp) {
+            cout << temp->dane << " ";
+            temp = temp->nastepny;
+        }
+        cout << endl;
+    }
+
+    /**
+     * @brief Wyswietla elementy listy od konca do poczatku
+     */
+    void wyswietlOdKonca() {
+        cout << "Lista od konca: ";
+        Wezel* temp = ogon;
+        while (temp) {
+            cout << temp->dane << " ";
+            temp = temp->poprzedni;
+        }
+        cout << endl;
+    }
+
+    /**
+     * @brief Destruktor zwalniajacy pamiec listy
+     */
+    ~ListaDwukierunkowa() {
+        Wezel* aktualny = glowa;
+        while (aktualny) {
+            Wezel* nastepny = aktualny->nastepny;
+            delete aktualny;
+            aktualny = nastepny;
+        }
+        glowa = ogon = nullptr;
+        cout << "Pamiec zostala zwolniona." << endl;
+    }
+};
+
+#endif
