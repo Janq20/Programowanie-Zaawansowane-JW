@@ -8,34 +8,56 @@ using namespace std;
  * @brief Struktura reprezentująca pojedynczy element listy.
  */
 struct Wezel {
-    int dane;           ///< Przechowuje wartosc elementu
-    Wezel* nastepny;    ///< Wskaznik na kolejny element
-    Wezel* poprzedni;   ///< Wskaznik na poprzedni element
+    int dane;           ///< Przechowuje wartość elementu
+    Wezel* nastepny;    ///< Wskaźnik na kolejny element
+    Wezel* poprzedni;   ///< Wskaźnik na poprzedni element
 
     /**
-     * @brief Konstruktor inicjalizujacy wezel
-     * @param wartosc wartosc przypisana do wezla
+     * @brief Konstruktor inicjalizujący węzeł
+     * @param wartosc wartość przypisana do węzła
      */
     Wezel(int wartosc) : dane(wartosc), nastepny(nullptr), poprzedni(nullptr) {}
 };
 
 /**
- * @brief Klasa reprezentujaca liste dwukierunkowa.
+ * @brief Klasa reprezentująca listę dwukierunkową.
  */
 class ListaDwukierunkowa {
 private:
-    Wezel* glowa;   ///< Wskaznik na pierwszy element
-    Wezel* ogon;    ///< Wskaznik na ostatni element
+    Wezel* glowa;   ///< Wskaźnik na pierwszy element
+    Wezel* ogon;    ///< Wskaźnik na ostatni element
 
 public:
     /**
-     * @brief Konstruktor inicjujacy pusta liste
+     * @brief Konstruktor inicjujący pustą listę
      */
     ListaDwukierunkowa() : glowa(nullptr), ogon(nullptr) {}
 
     /**
+     * @brief Sprawdza, czy lista jest pusta
+     * @return true jeśli lista jest pusta, false w przeciwnym wypadku
+     */
+    bool isEmpty() {
+        return glowa == nullptr;
+    }
+
+    /**
+     * @brief Zwraca liczbę elementów w liście
+     * @return liczba elementów typu int
+     */
+    int liczbaElementow() {
+        int licznik = 0;
+        Wezel* temp = glowa;
+        while (temp) {
+            licznik++;
+            temp = temp->nastepny;
+        }
+        return licznik;
+    }
+
+    /**
      * @brief Dodaje nowy element na koniec listy
-     * @param wartosc wartosc do dodania
+     * @param wartosc wartość do dodania
      */
     void dodajNaKoniec(int wartosc) {
         Wezel* nowy = new Wezel(wartosc);
@@ -47,9 +69,10 @@ public:
             ogon = nowy;
         }
     }
+
     /**
-     * @brief Dodaje nowy element na poczatek listy
-     * @param wartosc wartosc do dodania
+     * @brief Dodaje nowy element na początek listy
+     * @param wartosc wartość do dodania
      */
     void dodajNaPoczatek(int wartosc) {
         Wezel* nowy = new Wezel(wartosc);
@@ -63,7 +86,7 @@ public:
     }
 
     /**
-     * @brief Wyswietla elementy listy od poczatku do konca
+     * @brief Wyświetla elementy listy od początku do końca
      */
     void wyswietlOdPoczatku() {
         cout << "Lista od poczatku: ";
@@ -76,7 +99,7 @@ public:
     }
 
     /**
-     * @brief Wyswietla elementy listy od konca do poczatku
+     * @brief Wyświetla elementy listy od końca do początku
      */
     void wyswietlOdKonca() {
         cout << "Lista od konca: ";
@@ -89,7 +112,7 @@ public:
     }
 
     /**
-     * @brief Destruktor zwalniajacy pamiec listy
+     * @brief Destruktor zwalniający pamięć listy
      */
     ~ListaDwukierunkowa() {
         Wezel* aktualny = glowa;
