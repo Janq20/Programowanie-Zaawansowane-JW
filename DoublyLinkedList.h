@@ -47,6 +47,20 @@ public:
             ogon = nowy;
         }
     }
+    /**
+     * @brief Dodaje nowy element na poczatek listy
+     * @param wartosc wartosc do dodania
+     */
+    void dodajNaPoczatek(int wartosc) {
+        Wezel* nowy = new Wezel(wartosc);
+        if (!glowa) {
+            glowa = ogon = nowy;
+        } else {
+            nowy->nastepny = glowa;
+            glowa->poprzedni = nowy;
+            glowa = nowy;
+        }
+    }
 
     /**
      * @brief Wyswietla elementy listy od poczatku do konca
