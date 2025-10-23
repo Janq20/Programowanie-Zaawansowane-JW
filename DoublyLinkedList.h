@@ -5,45 +5,45 @@
 using namespace std;
 
 /**
- * @brief Struktura reprezentująca pojedynczy element listy.
+ * @brief Struktura reprezentujaca pojedynczy element listy dwukierunkowej.
  */
 struct Wezel {
-    int dane;           ///< Przechowuje wartość elementu
-    Wezel* nastepny;    ///< Wskaźnik na kolejny element
-    Wezel* poprzedni;   ///< Wskaźnik na poprzedni element
+    int dane;           ///< Przechowuje wartosc elementu
+    Wezel* nastepny;    ///< Wskaznik na kolejny element
+    Wezel* poprzedni;   ///< Wskaznik na poprzedni element
 
     /**
-     * @brief Konstruktor inicjalizujący węzeł
-     * @param wartosc wartość przypisana do węzła
+     * @brief Konstruktor inicjalizujacy wezel.
+     * @param wartosc wartosc przypisana do wezla
      */
     Wezel(int wartosc) : dane(wartosc), nastepny(nullptr), poprzedni(nullptr) {}
 };
 
 /**
- * @brief Klasa reprezentująca listę dwukierunkową.
+ * @brief Klasa reprezentujaca liste dwukierunkowa.
  */
 class ListaDwukierunkowa {
 private:
-    Wezel* glowa;   ///< Wskaźnik na pierwszy element
-    Wezel* ogon;    ///< Wskaźnik na ostatni element
+    Wezel* glowa;   ///< Wskaznik na pierwszy element listy
+    Wezel* ogon;    ///< Wskaznik na ostatni element listy
 
 public:
     /**
-     * @brief Konstruktor inicjujący pustą listę
+     * @brief Konstruktor inicjujacy pusta liste.
      */
     ListaDwukierunkowa() : glowa(nullptr), ogon(nullptr) {}
 
     /**
-     * @brief Sprawdza, czy lista jest pusta
-     * @return true jeśli lista jest pusta, false w przeciwnym wypadku
+     * @brief Sprawdza, czy lista jest pusta.
+     * @return true jesli lista jest pusta, false w przeciwnym wypadku
      */
     bool isEmpty() {
         return glowa == nullptr;
     }
 
     /**
-     * @brief Zwraca liczbę elementów w liście
-     * @return liczba elementów typu int
+     * @brief Zwraca liczbe elementow w liscie.
+     * @return liczba elementow typu int
      */
     int liczbaElementow() {
         int licznik = 0;
@@ -56,8 +56,8 @@ public:
     }
 
     /**
-     * @brief Dodaje nowy element na koniec listy
-     * @param wartosc wartość do dodania
+     * @brief Dodaje nowy element na koniec listy.
+     * @param wartosc wartosc do dodania
      */
     void dodajNaKoniec(int wartosc) {
         Wezel* nowy = new Wezel(wartosc);
@@ -71,8 +71,8 @@ public:
     }
 
     /**
-     * @brief Dodaje nowy element na początek listy
-     * @param wartosc wartość do dodania
+     * @brief Dodaje nowy element na poczatek listy.
+     * @param wartosc wartosc do dodania
      */
     void dodajNaPoczatek(int wartosc) {
         Wezel* nowy = new Wezel(wartosc);
@@ -86,7 +86,39 @@ public:
     }
 
     /**
-     * @brief Wyświetla elementy listy od początku do końca
+     * @brief Dodaje element pod wskazany indeks.
+     * @param wartosc wartosc do dodania
+     * @param indeks pozycja wstawienia (0 = poczatek listy)
+     */
+    void dodajPodIndeks(int wartosc, int indeks) {
+        if (indeks <= 0) {
+            dodajNaPoczatek(wartosc);
+            return;
+        }
+
+        int licznik = 0;
+        Wezel* temp = glowa;
+        while (temp && licznik < indeks - 1) {
+            temp = temp->nastepny;
+            licznik++;
+        }
+
+        // jesli indeks poza zakresem lub lista pusta -> dodaj na koniec
+        if (!temp || !temp->nastepny) {
+            dodajNaKoniec(wartosc);
+            return;
+        }
+
+        // wstawienie nowego wezla pomiedzy elementy
+        Wezel* nowy = new Wezel(wartosc);
+        nowy->nastepny = temp->nastepny;
+        nowy->poprzedni = temp;
+        temp->nastepny->poprzedni = nowy;
+        temp->nastepny = nowy;
+    }
+
+    /**
+     * @brief Wyswietla elementy listy od poczatku do konca.
      */
     void wyswietlOdPoczatku() {
         cout << "Lista od poczatku: ";
@@ -99,7 +131,7 @@ public:
     }
 
     /**
-     * @brief Wyświetla elementy listy od końca do początku
+     * @brief Wyswietla elementy listy od konca do poczatku.
      */
     void wyswietlOdKonca() {
         cout << "Lista od konca: ";
@@ -112,7 +144,7 @@ public:
     }
 
     /**
-     * @brief Destruktor zwalniający pamięć listy
+     * @brief Destruktor zwalniajacy pamiec listy.
      */
     ~ListaDwukierunkowa() {
         Wezel* aktualny = glowa;

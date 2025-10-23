@@ -91,34 +91,97 @@ $(function(){initNavTree('_doubly_linked_list_8h_source.html','',''); });
   <div class="headertitle"><div class="title">DoublyLinkedList.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;DoublyLinkedList.h&quot;</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef DOUBLYLINKEDLIST_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define DOUBLYLINKEDLIST_H</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keywordtype">void</span> DoublyLinkedList::displayForward() {</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>    Node* temp = head;</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    <span class="keywordflow">while</span> (temp) {</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>        std::cout &lt;&lt; temp-&gt;data &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        temp = temp-&gt;next;</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keywordtype">void</span> DoublyLinkedList::append(<span class="keywordtype">int</span> value) {</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    Node* newNode = <span class="keyword">new</span> Node(value);</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keywordflow">if</span> (!head) {</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        head = tail = newNode;</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        tail-&gt;next = newNode;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        newNode-&gt;prev = tail;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        tail = newNode;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    }</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>}</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>DoublyLinkedList::~DoublyLinkedList() {</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    Node* current = head;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordflow">while</span> (current) {</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        Node* next = current-&gt;next;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keyword">delete</span> current;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        current = next;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    }</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>}</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using namespace </span>std;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">struct </span>Wezel {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keywordtype">int</span> dane;           </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    Wezel* nastepny;    </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    Wezel* poprzedni;   </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    Wezel(<span class="keywordtype">int</span> wartosc) : dane(wartosc), nastepny(nullptr), poprzedni(nullptr) {}</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>};</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">class </span>ListaDwukierunkowa {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    Wezel* glowa;   </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    Wezel* ogon;    </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    ListaDwukierunkowa() : glowa(nullptr), ogon(nullptr) {}</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">bool</span> isEmpty() {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">return</span> glowa == <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">int</span> liczbaElementow() {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordtype">int</span> licznik = 0;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        Wezel* temp = glowa;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordflow">while</span> (temp) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            licznik++;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            temp = temp-&gt;nastepny;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">return</span> licznik;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordtype">void</span> dodajNaKoniec(<span class="keywordtype">int</span> wartosc) {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        Wezel* nowy = <span class="keyword">new</span> Wezel(wartosc);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keywordflow">if</span> (!glowa) {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            glowa = ogon = nowy;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            ogon-&gt;nastepny = nowy;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            nowy-&gt;poprzedni = ogon;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            ogon = nowy;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        }</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordtype">void</span> dodajNaPoczatek(<span class="keywordtype">int</span> wartosc) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        Wezel* nowy = <span class="keyword">new</span> Wezel(wartosc);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keywordflow">if</span> (!glowa) {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            glowa = ogon = nowy;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            nowy-&gt;nastepny = glowa;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            glowa-&gt;poprzedni = nowy;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            glowa = nowy;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    }</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordtype">void</span> wyswietlOdPoczatku() {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        cout &lt;&lt; <span class="stringliteral">&quot;Lista od poczatku: &quot;</span>;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        Wezel* temp = glowa;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">while</span> (temp) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            cout &lt;&lt; temp-&gt;dane &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            temp = temp-&gt;nastepny;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        }</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        cout &lt;&lt; endl;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    }</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordtype">void</span> wyswietlOdKonca() {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        cout &lt;&lt; <span class="stringliteral">&quot;Lista od konca: &quot;</span>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        Wezel* temp = ogon;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordflow">while</span> (temp) {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            cout &lt;&lt; temp-&gt;dane &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            temp = temp-&gt;poprzedni;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        }</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        cout &lt;&lt; endl;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    ~ListaDwukierunkowa() {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        Wezel* aktualny = glowa;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <span class="keywordflow">while</span> (aktualny) {</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            Wezel* nastepny = aktualny-&gt;nastepny;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>            <span class="keyword">delete</span> aktualny;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            aktualny = nastepny;</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        }</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        glowa = ogon = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        cout &lt;&lt; <span class="stringliteral">&quot;Pamiec zostala zwolniona.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    }</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>};</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->
