@@ -5,45 +5,111 @@
 using namespace std;
 
 /**
- * @brief Struktura reprezentujaca pojedynczy element listy dwukierunkowej.
+ * @brief Struktura reprezentująca pojedynczy element listy dwukierunkowej.
  */
 struct Wezel {
-    int dane;           ///< Przechowuje wartosc elementu
-    Wezel* nastepny;    ///< Wskaznik na kolejny element
-    Wezel* poprzedni;   ///< Wskaznik na poprzedni element
+    int dane;           ///< Przechowuje wartość elementu
+    Wezel* nastepny;    ///< Wskaźnik na kolejny element
+    Wezel* poprzedni;   ///< Wskaźnik na poprzedni element
 
     /**
-     * @brief Konstruktor inicjalizujacy wezel.
-     * @param wartosc wartosc przypisana do wezla
+     * @brief Konstruktor inicjalizujący węzeł.
+     * @param wartosc wartość przypisana do węzła
      */
     Wezel(int wartosc) : dane(wartosc), nastepny(nullptr), poprzedni(nullptr) {}
 };
 
 /**
- * @brief Klasa reprezentujaca liste dwukierunkowa.
+ * @brief Klasa iteratora listy dwukierunkowej.
+ * Pozwala na iterowanie po elementach listy w przód i w tył.
  */
-class ListaDwukierunkowa {
+class Iterator {
 private:
-    Wezel* glowa;   ///< Wskaznik na pierwszy element listy
-    Wezel* ogon;    ///< Wskaznik na ostatni element listy
+    Wezel* aktualny; ///< Wskaźnik na aktualny element
 
 public:
     /**
-     * @brief Konstruktor inicjujacy pusta liste.
+     * @brief Konstruktor iteratora.
+     * @param start wskaźnik na początkowy element listy
+     */
+    Iterator(Wezel* start) : aktualny(start) {}
+
+    /**
+     * @brief Sprawdza, czy istnieje następny element.
+     * @return true jeśli istnieje, false w przeciwnym razie
+     */
+    bool maNastepny() {
+        return aktualny && aktualny->nastepny;
+    }
+
+    /**
+     * @brief Sprawdza, czy istnieje poprzedni element.
+     * @return true jeśli istnieje, false w przeciwnym razie
+     */
+    bool maPoprzedni() {
+        return aktualny && aktualny->poprzedni;
+    }
+
+    /**
+     * @brief Przechodzi do następnego elementu.
+     * @return iterator ustawiony na następny element
+     */
+    Iterator& nastepny() {
+        if (aktualny) aktualny = aktualny->nastepny;
+        return *this;
+    }
+
+    /**
+     * @brief Przechodzi do poprzedniego elementu.
+     * @return iterator ustawiony na poprzedni element
+     */
+    Iterator& poprzedni() {
+        if (aktualny) aktualny = aktualny->poprzedni;
+        return *this;
+    }
+
+    /**
+     * @brief Zwraca wartość aktualnego elementu.
+     * @return wartość typu int
+     */
+    int wartosc() const {
+        return aktualny ? aktualny->dane : -1;
+    }
+
+    /**
+     * @brief Sprawdza, czy iterator jest ważny.
+     * @return true jeśli wskazuje na element, false jeśli nullptr
+     */
+    bool valid() const {
+        return aktualny != nullptr;
+    }
+};
+
+/**
+ * @brief Klasa reprezentująca listę dwukierunkową.
+ */
+class ListaDwukierunkowa {
+private:
+    Wezel* glowa;   ///< Wskaźnik na pierwszy element listy
+    Wezel* ogon;    ///< Wskaźnik na ostatni element listy
+
+public:
+    /**
+     * @brief Konstruktor inicjujący pustą listę.
      */
     ListaDwukierunkowa() : glowa(nullptr), ogon(nullptr) {}
 
     /**
      * @brief Sprawdza, czy lista jest pusta.
-     * @return true jesli lista jest pusta, false w przeciwnym wypadku
+     * @return true jeśli lista jest pusta, false w przeciwnym wypadku
      */
     bool isEmpty() {
         return glowa == nullptr;
     }
 
     /**
-     * @brief Zwraca liczbe elementow w liscie.
-     * @return liczba elementow typu int
+     * @brief Zwraca liczbę elementów w liście.
+     * @return liczba elementów typu int
      */
     int liczbaElementow() {
         int licznik = 0;
@@ -57,7 +123,7 @@ public:
 
     /**
      * @brief Dodaje nowy element na koniec listy.
-     * @param wartosc wartosc do dodania
+     * @param wartosc wartość do dodania
      */
     void dodajNaKoniec(int wartosc) {
         Wezel* nowy = new Wezel(wartosc);
@@ -71,8 +137,8 @@ public:
     }
 
     /**
-     * @brief Dodaje nowy element na poczatek listy.
-     * @param wartosc wartosc do dodania
+     * @brief Dodaje nowy element na początek listy.
+     * @param wartosc wartość do dodania
      */
     void dodajNaPoczatek(int wartosc) {
         Wezel* nowy = new Wezel(wartosc);
@@ -87,8 +153,8 @@ public:
 
     /**
      * @brief Dodaje element pod wskazany indeks.
-     * @param wartosc wartosc do dodania
-     * @param indeks pozycja wstawienia (0 = poczatek listy)
+     * @param wartosc wartość do dodania
+     * @param indeks pozycja wstawienia (0 = początek listy)
      */
     void dodajPodIndeks(int wartosc, int indeks) {
         if (indeks <= 0) {
@@ -103,13 +169,11 @@ public:
             licznik++;
         }
 
-        // jesli indeks poza zakresem lub lista pusta -> dodaj na koniec
         if (!temp || !temp->nastepny) {
             dodajNaKoniec(wartosc);
             return;
         }
 
-        // wstawienie nowego wezla pomiedzy elementy
         Wezel* nowy = new Wezel(wartosc);
         nowy->nastepny = temp->nastepny;
         nowy->poprzedni = temp;
@@ -118,7 +182,56 @@ public:
     }
 
     /**
-     * @brief Wyswietla elementy listy od poczatku do konca.
+     * @brief Usuwa element z początku listy.
+     */
+    void usunZPoczatku() {
+        if (!glowa) return;
+        Wezel* temp = glowa;
+        glowa = glowa->nastepny;
+        if (glowa) glowa->poprzedni = nullptr;
+        else ogon = nullptr;
+        delete temp;
+    }
+
+    /**
+     * @brief Usuwa element z końca listy.
+     */
+    void usunZKonca() {
+        if (!ogon) return;
+        Wezel* temp = ogon;
+        ogon = ogon->poprzedni;
+        if (ogon) ogon->nastepny = nullptr;
+        else glowa = nullptr;
+        delete temp;
+    }
+
+    /**
+     * @brief Czyści całą listę.
+     */
+    void czyscListe() {
+        while (glowa) {
+            usunZPoczatku();
+        }
+    }
+
+    /**
+     * @brief Zwraca iterator ustawiony na pierwszy element.
+     * @return iterator wskazujący początek listy
+     */
+    Iterator begin() {
+        return Iterator(glowa);
+    }
+
+    /**
+     * @brief Zwraca iterator ustawiony na ostatni element.
+     * @return iterator wskazujący koniec listy
+     */
+    Iterator end() {
+        return Iterator(ogon);
+    }
+
+    /**
+     * @brief Wyświetla elementy listy od początku do końca.
      */
     void wyswietlOdPoczatku() {
         cout << "Lista od poczatku: ";
@@ -131,7 +244,7 @@ public:
     }
 
     /**
-     * @brief Wyswietla elementy listy od konca do poczatku.
+     * @brief Wyświetla elementy listy od końca do początku.
      */
     void wyswietlOdKonca() {
         cout << "Lista od konca: ";
@@ -144,17 +257,33 @@ public:
     }
 
     /**
-     * @brief Destruktor zwalniajacy pamiec listy.
+     * @brief Destruktor zwalniający pamięć listy.
      */
     ~ListaDwukierunkowa() {
-        Wezel* aktualny = glowa;
-        while (aktualny) {
-            Wezel* nastepny = aktualny->nastepny;
-            delete aktualny;
-            aktualny = nastepny;
-        }
-        glowa = ogon = nullptr;
+        czyscListe();
         cout << "Pamiec zostala zwolniona." << endl;
+    }
+};
+
+/**
+ * @brief Klasa fabryki (Factory) do tworzenia list dwukierunkowych.
+ */
+class ListaFactory {
+public:
+    /**
+     * @brief Tworzy nową listę dwukierunkową i zwraca wskaźnik do niej.
+     * @return wskaźnik na nową instancję klasy ListaDwukierunkowa
+     */
+    static ListaDwukierunkowa* stworzListe() {
+        return new ListaDwukierunkowa();
+    }
+
+    /**
+     * @brief Usuwa wskazaną listę i zwalnia pamięć.
+     * @param lista wskaźnik na listę do usunięcia
+     */
+    static void usunListe(ListaDwukierunkowa* lista) {
+        delete lista;
     }
 };
 
