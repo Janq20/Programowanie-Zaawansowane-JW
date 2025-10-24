@@ -5,11 +5,11 @@ using namespace std;
 int main() {
     cout << "=== TEST LISTY DWUKIERUNKOWEJ ===" << endl;
 
-    // Tworzenie listy przez Factory
+    // Tworzenie listy przez fabric
     ListaDwukierunkowa* lista = ListaFactory::stworzListe();
     cout << "Utworzono nowa liste przez fabryke." << endl;
 
-    // Dodawanie elementow
+    // Dodawanie elementów
     lista->dodajNaPoczatek(10);
     lista->dodajNaKoniec(20);
     lista->dodajNaKoniec(30);
@@ -24,7 +24,7 @@ int main() {
 
     cout << "\nLiczba elementow: " << lista->liczbaElementow() << endl;
 
-    // Test iteratora
+    // Test iteratora od początku
     cout << "\n=== Test iteratora od poczatku ===" << endl;
     Iterator it = lista->begin();
     while (it.valid()) {
@@ -33,6 +33,7 @@ int main() {
     }
     cout << endl;
 
+    // Test iteratora od końca
     cout << "\n=== Test iteratora od konca ===" << endl;
     Iterator it2 = lista->end();
     while (it2.valid()) {
@@ -41,7 +42,7 @@ int main() {
     }
     cout << endl;
 
-    // Test usuwania
+    // Test usuwania elementów
     cout << "\nUsuwam element z poczatku i konca..." << endl;
     lista->usunZPoczatku();
     lista->usunZKonca();
@@ -56,7 +57,7 @@ int main() {
 
     cout << "\nCzy lista jest pusta? " << (lista->isEmpty() ? "Tak" : "Nie") << endl;
 
-    // Zwolnienie pamieci przez Factory
+    // Zwolnienie pamięci przez fabrykę
     ListaFactory::usunListe(lista);
     cout << "\nZakonczono testy." << endl;
 
