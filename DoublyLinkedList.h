@@ -206,6 +206,37 @@ public:
     }
 
     /**
+     * @brief Usuwa element pod wskazanym indeksem.
+     * @param indeks indeks elementu do usunięcia (0 = początek)
+     */
+    void usunPodIndeks(int indeks) {
+        if (!glowa || indeks < 0) return;
+
+        if (indeks == 0) {
+            usunZPoczatku();
+            return;
+        }
+
+        int licznik = 0;
+        Wezel* temp = glowa;
+        while (temp && licznik < indeks) {
+            temp = temp->nastepny;
+            licznik++;
+        }
+
+        if (!temp) return; // poza zakresem
+
+        if (temp == ogon) {
+            usunZKonca();
+            return;
+        }
+
+        temp->poprzedni->nastepny = temp->nastepny;
+        temp->nastepny->poprzedni = temp->poprzedni;
+        delete temp;
+    }
+
+    /**
      * @brief Czyści całą listę.
      */
     void czyscListe() {
