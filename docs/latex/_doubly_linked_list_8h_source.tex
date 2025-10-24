@@ -59,38 +59,65 @@
 \DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00086\ \ \ \ \ \}}
 \DoxyCodeLine{00087\ }
-\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{void}\ wyswietlOdPoczatku()\ \{}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Lista\ od\ poczatku:\ "{}};}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ Wezel*\ temp\ =\ glowa;}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (temp)\ \{}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ temp-\/>dane\ <<\ \textcolor{stringliteral}{"{}\ "{}};}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ temp\ =\ temp-\/>nastepny;}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{void}\ dodajPodIndeks(\textcolor{keywordtype}{int}\ wartosc,\ \textcolor{keywordtype}{int}\ indeks)\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (indeks\ <=\ 0)\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ dodajNaPoczatek(wartosc);}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
 \DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ cout\ <<\ endl;}
-\DoxyCodeLine{00099\ \ \ \ \ \}}
-\DoxyCodeLine{00100\ }
-\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{void}\ wyswietlOdKonca()\ \{}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Lista\ od\ konca:\ "{}};}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ Wezel*\ temp\ =\ ogon;}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (temp)\ \{}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ temp-\/>dane\ <<\ \textcolor{stringliteral}{"{}\ "{}};}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ temp\ =\ temp-\/>poprzedni;}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ licznik\ =\ 0;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ Wezel*\ temp\ =\ glowa;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (temp\ \&\&\ licznik\ <\ indeks\ -\/\ 1)\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ temp\ =\ temp-\/>nastepny;}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ licznik++;}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ jesli\ indeks\ poza\ zakresem\ lub\ lista\ pusta\ -\/>\ dodaj\ na\ koniec}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!temp\ ||\ !temp-\/>nastepny)\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ dodajNaKoniec(wartosc);}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
 \DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ cout\ <<\ endl;}
-\DoxyCodeLine{00112\ \ \ \ \ \}}
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00117\ \ \ \ \ \string~ListaDwukierunkowa()\ \{}
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ Wezel*\ aktualny\ =\ glowa;}
-\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (aktualny)\ \{}
-\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ Wezel*\ nastepny\ =\ aktualny-\/>nastepny;}
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ aktualny;}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ aktualny\ =\ nastepny;}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ glowa\ =\ ogon\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Pamiec\ zostala\ zwolniona."{}}\ <<\ endl;}
-\DoxyCodeLine{00126\ \ \ \ \ \}}
-\DoxyCodeLine{00127\ \};}
-\DoxyCodeLine{00128\ }
-\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ wstawienie\ nowego\ wezla\ pomiedzy\ elementy}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ Wezel*\ nowy\ =\ \textcolor{keyword}{new}\ Wezel(wartosc);}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ nowy-\/>nastepny\ =\ temp-\/>nastepny;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ nowy-\/>poprzedni\ =\ temp;}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ temp-\/>nastepny-\/>poprzedni\ =\ nowy;}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ temp-\/>nastepny\ =\ nowy;}
+\DoxyCodeLine{00118\ \ \ \ \ \}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{void}\ wyswietlOdPoczatku()\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Lista\ od\ poczatku:\ "{}};}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ Wezel*\ temp\ =\ glowa;}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (temp)\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ temp-\/>dane\ <<\ \textcolor{stringliteral}{"{}\ "{}};}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ temp\ =\ temp-\/>nastepny;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ cout\ <<\ endl;}
+\DoxyCodeLine{00131\ \ \ \ \ \}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordtype}{void}\ wyswietlOdKonca()\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Lista\ od\ konca:\ "{}};}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ Wezel*\ temp\ =\ ogon;}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (temp)\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ temp-\/>dane\ <<\ \textcolor{stringliteral}{"{}\ "{}};}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ temp\ =\ temp-\/>poprzedni;}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ cout\ <<\ endl;}
+\DoxyCodeLine{00144\ \ \ \ \ \}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00149\ \ \ \ \ \string~ListaDwukierunkowa()\ \{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ Wezel*\ aktualny\ =\ glowa;}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (aktualny)\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ Wezel*\ nastepny\ =\ aktualny-\/>nastepny;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ aktualny;}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ aktualny\ =\ nastepny;}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ glowa\ =\ ogon\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Pamiec\ zostala\ zwolniona."{}}\ <<\ endl;}
+\DoxyCodeLine{00158\ \ \ \ \ \}}
+\DoxyCodeLine{00159\ \};}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}
