@@ -1,52 +1,64 @@
-#include <iostream>
 #include "DoublyLinkedList.h"
-
+#include <iostream>
 using namespace std;
 
 int main() {
-    cout << "=== Test listy dwukierunkowej ===" << endl;
+    cout << "=== TEST LISTY DWUKIERUNKOWEJ ===" << endl;
 
-    ListaDwukierunkowa lista;
+    // Tworzenie listy przez Factory
+    ListaDwukierunkowa* lista = ListaFactory::stworzListe();
+    cout << "Utworzono nowa liste przez fabryke." << endl;
 
-    // Sprawdzenie, czy lista jest pusta
-    cout << "Czy lista jest pusta? " << (lista.isEmpty() ? "TAK" : "NIE") << endl;
+    // Dodawanie elementow
+    lista->dodajNaPoczatek(10);
+    lista->dodajNaKoniec(20);
+    lista->dodajNaKoniec(30);
+    lista->dodajPodIndeks(15, 1);
+    lista->dodajPodIndeks(25, 3);
 
-    // Dodanie elementów na koniec listy
-    lista.dodajNaKoniec(10);
-    lista.dodajNaKoniec(20);
-    lista.dodajNaKoniec(30);
+    cout << "\nZawartosc listy (od poczatku):" << endl;
+    lista->wyswietlOdPoczatku();
 
-    // Dodanie elementów na początek listy
-    lista.dodajNaPoczatek(5);
-    lista.dodajNaPoczatek(1);
+    cout << "\nZawartosc listy (od konca):" << endl;
+    lista->wyswietlOdKonca();
 
-    cout << "\nLista po dodaniu elementow na poczatek i koniec:" << endl;
-    lista.wyswietlOdPoczatku();
-    lista.wyswietlOdKonca();
+    cout << "\nLiczba elementow: " << lista->liczbaElementow() << endl;
 
-    // Sprawdzenie liczby elementów
-    cout << "Liczba elementow w liscie: " << lista.liczbaElementow() << endl;
+    // Test iteratora
+    cout << "\n=== Test iteratora od poczatku ===" << endl;
+    Iterator it = lista->begin();
+    while (it.valid()) {
+        cout << it.wartosc() << " ";
+        it.nastepny();
+    }
+    cout << endl;
 
-    // Dodanie elementu pod wskazany indeks
-    cout << "\nDodajemy element 99 pod indeks 2:" << endl;
-    lista.dodajPodIndeks(99, 2);
-    lista.wyswietlOdPoczatku();
+    cout << "\n=== Test iteratora od konca ===" << endl;
+    Iterator it2 = lista->end();
+    while (it2.valid()) {
+        cout << it2.wartosc() << " ";
+        it2.poprzedni();
+    }
+    cout << endl;
 
-    cout << "\nDodajemy element 77 pod indeks 0 (poczatek):" << endl;
-    lista.dodajPodIndeks(77, 0);
-    lista.wyswietlOdPoczatku();
+    // Test usuwania
+    cout << "\nUsuwam element z poczatku i konca..." << endl;
+    lista->usunZPoczatku();
+    lista->usunZKonca();
 
-    cout << "\nDodajemy element 88 pod indeks 100 (koniec):" << endl;
-    lista.dodajPodIndeks(88, 100);
-    lista.wyswietlOdPoczatku();
+    cout << "\nLista po usunieciu pierwszego i ostatniego elementu:" << endl;
+    lista->wyswietlOdPoczatku();
 
-    // Sprawdzenie, czy lista nadal jest pusta
-    cout << "\nCzy lista jest pusta po dodaniu elementow? " 
-         << (lista.isEmpty() ? "TAK" : "NIE") << endl;
+    // Czyszczenie listy
+    cout << "\nCzyszcze cala liste..." << endl;
+    lista->czyscListe();
+    lista->wyswietlOdPoczatku();
 
-    cout << "Liczba elementow w liscie po wszystkich operacjach: " 
-         << lista.liczbaElementow() << endl;
+    cout << "\nCzy lista jest pusta? " << (lista->isEmpty() ? "Tak" : "Nie") << endl;
 
-    cout << "=== Koniec testu ===" << endl;
+    // Zwolnienie pamieci przez Factory
+    ListaFactory::usunListe(lista);
+    cout << "\nZakonczono testy." << endl;
+
     return 0;
 }
